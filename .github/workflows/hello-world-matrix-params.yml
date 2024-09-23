@@ -11,7 +11,7 @@ on:
       languages:
         description: "List of languages to run the Hello World program"
         required: false
-        type: array
+        type: [string]
         default: [python, javascript, shell, go]
 
 jobs:
