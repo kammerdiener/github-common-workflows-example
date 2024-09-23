@@ -8,11 +8,6 @@ on:
         description: "The greeting message to print"
         required: true
         type: string
-      languages:
-        description: "List of languages to run the Hello World program"
-        required: false
-        type: [string]
-        default: [python, javascript, shell, go]
 
 jobs:
   hello_world:
@@ -20,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        language: ${{ inputs.languages }}
+        language: [python, javascript, shell, go]
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
