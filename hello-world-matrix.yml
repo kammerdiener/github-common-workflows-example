@@ -1,0 +1,44 @@
+name: Hello World Matrix
+
+on:
+  workflow_call:   # This allows the workflow to be reused by other repositories
+
+jobs:
+  hello_world:
+    name: Run Hello World
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        language: [python, javascript, shell, go]
+        include:
+          - language: python
+            file: common/hello-world.py
+            command: python3
+          - language: javascript
+            file: common/hello-world.ts
+            command: ts-node
+          - language: shell
+            file: common/hello-world.sh
+            command: bash
+          - language: go
+            file: common/hello-world.go
+            command: go run
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js (if JavaScript)
+        if: matrix.language == 'javascript'
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
+      
+      - name: Set up Go (if Go)
+        if: matrix.language == 'go'
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.18'
+
+      - name: Run Hello World
+        run: |
+          ${{ matrix.command }} ${{ matrix.file }}
